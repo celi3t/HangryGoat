@@ -26,6 +26,8 @@ class BlogTitleSpider(CrawlSpider):
         item['title'] = response.xpath('/html/head/meta[@property="og:title"]/@content').extract()
         item['timestamp'] = response.xpath('//span[@class="posted-on"]/a/time[1]/@datetime').extract()
         item['url'] = response.xpath('/html/head/link[@rel="canonical"]/@href').extract()
+        item['raw_content'] = response.xpath('//div[@class="entry-content"]/*[not(self::div)]/text()').extract()
+        item['raw_recipe'] = response.xpath('//div[@class="entry-content"]//div[@class="blog-yumprint-recipe-contents"]').extract()
         yield item
 
         # filename = response.url.split("/")[-2]    

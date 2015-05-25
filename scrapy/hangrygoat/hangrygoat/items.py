@@ -12,3 +12,5 @@ class HangrygoatItem(scrapy.Item):
     title = scrapy.Field()
     timestamp = scrapy.Field()
     url = scrapy.Field()
+    raw_content = scrapy.Field()
+    raw_recipe = scrapy.Field()
