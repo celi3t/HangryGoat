@@ -1,4 +1,5 @@
 import scrapy
+from hangrygoat.items import HangrygoatItem
 
 class BlogTitleSpider(scrapy.Spider):
     name = "blog_title"
@@ -8,6 +9,8 @@ class BlogTitleSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        filename = response.url.split("/")[-2]
-        with open(filename, 'wb') as f:
-            f.write(response.body)
+        item = HangrygoatItem()
+        item['title'] = response.xpath('/html/head/meta[@property="og:title"]/@content').extract()
+        item['timestamp'] = response.xpath('//span[@class="posted-on"]/a/time[1]/@datetime').extract()
+        item['url'] = response.xpath('/html/head/link[@rel="canonical"]/@href').extract()
+        yield item

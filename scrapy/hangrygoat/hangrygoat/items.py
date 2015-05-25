@@ -9,6 +9,6 @@ import scrapy
 
 
 class HangrygoatItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    timestamp = scrapy.Field()
+    url = scrapy.Field()
