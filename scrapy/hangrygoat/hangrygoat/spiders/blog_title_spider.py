@@ -11,7 +11,11 @@ class BlogTitleSpider(CrawlSpider):
         "http://joythebaker.com/2015/05/let-it-be-sunday-21/"
     ]
     
-    rules = [Rule(LinkExtractor())]        
+    rules = [
+        #Rule(LinkExtractor(deny = ('.*comment-page.*') )), 
+        Rule(LinkExtractor(allow = '^http://joythebaker.com/page/\d+/$')),
+        Rule(LinkExtractor(allow = '^http://joythebaker.com/\d\d\d\d/\d\d/.*/$'), callback='parse_item', follow=True)
+    ]        
 
 
     """
