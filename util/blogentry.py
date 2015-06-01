@@ -1,6 +1,8 @@
 import sys
 import json
-import dateutil.parser
+from dateutil.parser import parse
+
+from text_util import TextUtil
 
 class BlogEntry(object):
     """Data class modeling a raw blog entry"""
@@ -8,7 +10,7 @@ class BlogEntry(object):
         super(BlogEntry, self).__init__()
 
         self.__title = title
-        self.__date = dateutil.parser.parse(date_string)
+        self.__date = parse(date_string)
         self.__url = url
         self.__raw_text = raw_text
 
@@ -22,14 +24,14 @@ class BlogEntry(object):
         return self.__url
 
     def text(self):
-        return self.__text
+        return self.__raw_text
 
     @staticmethod
     def from_json_object(json_object):
-        title = json_object['title'][0].encode('utf-8', 'replace')
-        date_string = json_object['timestamp'][0].encode('utf-8', 'replace')
-        raw_text = json_object['raw_content'][0].encode('utf-8', 'replace')
-        url = json_object['url'][0].encode('utf-8', 'replace')
+        title = TextUtil.unpack_list(json_object['title'])
+        date_string = TextUtil.unpack_list(json_object['timestamp'])
+        raw_text = TextUtil.unpack_list(json_object['raw_content'])
+        url = TextUtil.unpack_list(json_object['url'])
 
         return BlogEntry(title, date_string, "", raw_text)
 
