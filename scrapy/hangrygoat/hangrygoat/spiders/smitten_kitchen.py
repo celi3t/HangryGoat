@@ -23,4 +23,6 @@ class SmittenKitchenSpider(CrawlSpider):
         # print " >>>" + datetime.datetime.strptime(item['timestamp'].encode('utf-8', 'replace').strip(), "%A, %B %d, %Y").isoformat()
         item['url'] = response.xpath('/html/head/link[@rel="canonical"]/@href').extract()
         item['raw_content'] = response.xpath('/html/body/div[@id="page"]//div[@class="post"]/div[@class="entry"]').extract()
+        item['source'] = self.name
+        item['crawl_url'] = response.url
         return item

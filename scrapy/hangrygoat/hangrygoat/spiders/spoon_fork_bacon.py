@@ -22,4 +22,6 @@ class SpoonForkBaconSpider(CrawlSpider):
         item['timestamp'] = response.xpath('/html/head/meta[@property="article:published_time"]/@content').extract()
         item['url'] = response.xpath('/html/head/link[@rel="canonical"]/@href').extract()
         item['raw_content'] = response.xpath('/html/body//div[@id="blog_content_container"]').extract()
+        item['source'] = self.name
+        item['crawl_url'] = response.url
         return item

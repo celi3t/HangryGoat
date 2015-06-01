@@ -26,4 +26,6 @@ class JoyTheBakerSpider(CrawlSpider):
         item['timestamp'] = response.xpath('//span[@class="posted-on"]/a/time[1]/@datetime').extract()
         item['url'] = response.xpath('/html/head/link[@rel="canonical"]/@href').extract()
         item['raw_content'] = response.xpath('//div[@class="entry-content"]/*[not(self::div)]/text()').extract()
+        item['source'] = self.name
+        item['crawl_url'] = response.url
         yield item

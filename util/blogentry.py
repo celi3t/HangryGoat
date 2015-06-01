@@ -8,7 +8,7 @@ from text_util import TextUtil
 
 class BlogEntry(object):
     """Data class modeling a raw blog entry"""
-    def __init__(self, title, date_string, url, raw_text):
+    def __init__(self, title, date, url, raw_text, source, crawl_url):
         super(BlogEntry, self).__init__()
 
         if isinstance(date_string, datetime):
@@ -17,6 +17,8 @@ class BlogEntry(object):
             self.__date = parse(date_string)
         self.__url = url
         self.__raw_text = raw_text
+        self.__source = source
+        self.__crawl_url = crawl_url
 
     def title(self):
         return self.__title
@@ -30,14 +32,22 @@ class BlogEntry(object):
     def text(self):
         return self.__raw_text
 
+    def source(self):
+        return self.__source
+
+    def crawl_url(self):
+        return self.__crawl_url
+
     @staticmethod
     def from_json_object(json_object):
         title = TextUtil.unpack_list(json_object['title'])
         date_string = TextUtil.unpack_list(json_object['timestamp'])
         raw_text = TextUtil.unpack_list(json_object['raw_content'])
         url = TextUtil.unpack_list(json_object['url'])
+        source = TextUtil.to_utf8(json_object['source'])
+        crawl_url = TextUtil.to_utf8(json_object['crawl_url'])
 
-        return BlogEntry(title, date_string, "", raw_text)
+        return BlogEntry(title, date_string, url, raw_text, source, crawl_url)
 
 class BlogEntryCollection(object):
     """Data class modeling a collection of BlogEntry elements"""
