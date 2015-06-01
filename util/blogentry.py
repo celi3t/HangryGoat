@@ -1,6 +1,7 @@
 import sys
 import json
 from dateutil.parser import parse
+from datetime import datetime
 import pandas as pd
 
 from text_util import TextUtil
@@ -10,8 +11,10 @@ class BlogEntry(object):
     def __init__(self, title, date_string, url, raw_text):
         super(BlogEntry, self).__init__()
 
-        self.__title = title
-        self.__date = parse(date_string)
+        if isinstance(date_string, datetime):
+            self.__date = date_string
+        else:
+            self.__date = parse(date_string)
         self.__url = url
         self.__raw_text = raw_text
 
