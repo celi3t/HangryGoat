@@ -1,6 +1,7 @@
 import sys
 import json
 from dateutil.parser import parse
+import pandas as pd
 
 from text_util import TextUtil
 
@@ -64,6 +65,24 @@ class BlogEntryCollection(object):
 
     def size(self):
         return len(self.__entries)
+        
+    def to_dataframe(self):
+        data = {}
+        data['title'] = list()
+        data['timestamp'] = list()
+        data['url'] = list()
+        data['raw_content'] = list()
+        for entry in self:
+            data['title'].append(entry.title())
+            data['timestamp'].append(entry.date())
+            data['url'].append(entry.url())
+            data['raw_content'].append(entry.text())
+
+        data = pd.DataFrame.from_dict(data)
+        data['year'] = data['timestamp'].dt.year
+        data['month'] = data['timestamp'].dt.month 
+        data['week'] = data['timestamp'].dt.week
+        return data
 
     def __iter__(self):
         for entry in self.__entries:
@@ -74,3 +93,4 @@ if __name__ == "__main__":
     print collection.size()
     for entry in collection:
         print entry.title()
+    print collection.to_dataframe()
