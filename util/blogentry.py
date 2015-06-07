@@ -11,10 +11,11 @@ class BlogEntry(object):
     def __init__(self, title, date, url, raw_text, source, crawl_url):
         super(BlogEntry, self).__init__()
 
-        if isinstance(date_string, datetime):
-            self.__date = date_string
+        self.__title = title
+        if isinstance(date, datetime):
+            self.__date = date
         else:
-            self.__date = parse(date_string)
+            self.__date = parse(date)
         self.__url = url
         self.__raw_text = raw_text
         self.__source = source
