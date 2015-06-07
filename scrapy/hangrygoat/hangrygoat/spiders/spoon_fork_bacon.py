@@ -13,7 +13,7 @@ class SpoonForkBaconSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(allow = '^http://www.spoonforkbacon.com/page/\d+/$')),
-        Rule(LinkExtractor(allow = '^http://www.spoonforkbacon.com/\d\d\d\d/\d\d/.*/$'), callback='parse_item', follow=True)
+        Rule(LinkExtractor(allow = '^http://www.spoonforkbacon.com/\d\d\d\d/\d\d/[^/]+/$'), callback='parse_item', follow=True)
     )
 
     def parse_item(self, response):

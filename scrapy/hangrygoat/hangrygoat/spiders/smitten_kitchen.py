@@ -13,7 +13,7 @@ class SmittenKitchenSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(allow = '^http://smittenkitchen.com/page/\d+/$')),
-        Rule(LinkExtractor(allow = '^http://smittenkitchen.com/blog/\d\d\d\d/\d\d/.*/$'), callback='parse_item', follow=True)
+        Rule(LinkExtractor(allow = '^http://smittenkitchen.com/blog/\d\d\d\d/\d\d/[^/]+/$'), callback='parse_item', follow=True)
     )
 
     def parse_item(self, response):

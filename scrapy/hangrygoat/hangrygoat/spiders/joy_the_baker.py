@@ -13,7 +13,7 @@ class JoyTheBakerSpider(CrawlSpider):
 
     rules = [
         Rule(LinkExtractor(allow = '^http://joythebaker.com/page/\d+/$')),
-        Rule(LinkExtractor(allow = '^http://joythebaker.com/\d\d\d\d/\d\d/.*/$'), callback='parse_item', follow=True)
+        Rule(LinkExtractor(allow = '^http://joythebaker.com/\d\d\d\d/\d\d/[^/]+/$'), callback='parse_item', follow=True)
     ]
 
 
