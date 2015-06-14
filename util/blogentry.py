@@ -54,6 +54,8 @@ class BlogEntryCollection(object):
     """Data class modeling a collection of BlogEntry elements"""
     def __init__(self, entries):
         super(BlogEntryCollection, self).__init__()
+        if not isinstance(entries, list):
+            raise ValueError("Entries is not a list")
         self.__entries = entries
 
     @staticmethod
