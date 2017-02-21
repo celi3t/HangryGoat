@@ -61,7 +61,8 @@ class TextUtil():
         #string = TextUtil.to_utf8(string)
         string = TextUtil.to_lower_case(string)
         string = TextUtil.eliminate_punctuation(string)
-        words = TextUtil.single_word_vectorizer(string)
+        words = TextUtil.single_word_vectorizer(string, unique = True, stemming = True)
+        #print words
         print "tot parsed words: ", len(words)
         return words
     

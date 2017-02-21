@@ -45,10 +45,11 @@ class BlogEntry(object):
         date_string = TextUtil.unpack_list(json_object['timestamp'])
         raw_text = TextUtil.unpack_list(json_object['raw_content'])
         url = TextUtil.unpack_list(json_object['url'])
-        source = TextUtil.to_utf8(json_object['source'])
-        crawl_url = TextUtil.to_utf8(json_object['crawl_url'])
+        source = 'joy_the_baker'#TextUtil.to_utf8(json_object['source'])
+        crawl_url = url#TextUtil.to_utf8(json_object['crawl_url'])
 
         return BlogEntry(title, date_string, url, raw_text, source, crawl_url)
+        
 
 class BlogEntryCollection(object):
     """Data class modeling a collection of BlogEntry elements"""
@@ -62,6 +63,7 @@ class BlogEntryCollection(object):
     def from_json_file(file_path):
         json_object = json.load(open(file_path))
         return BlogEntryCollection.from_json_object(json_object)
+        
 
     @staticmethod
     def from_json_object(json_collection):
@@ -104,9 +106,9 @@ class BlogEntryCollection(object):
         for entry in self.__entries:
             yield entry
 
-if __name__ == "__main__":
-    collection = BlogEntryCollection.from_json_file(sys.argv[1])
-    print collection.size()
-    for entry in collection:
-        print entry.title()
-    print collection.to_dataframe()
+# if __name__ == "__main__":
+#     collection = BlogEntryCollection.from_json_file(sys.argv[1])
+#     print collection.size()
+#     #for entry in collection:
+#      #   print entry.title()
+#     print collection.to_dataframe()

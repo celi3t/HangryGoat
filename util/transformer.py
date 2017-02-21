@@ -13,7 +13,9 @@ class ToLowerCase():
         output_collection = list()
         for entry in collection:
             output_collection.append(BlogEntry(TextUtil.to_lower_case(entry.title()), \
-            entry.date(), entry.url(), TextUtil.to_lower_case(entry.text())))
+            entry.date(), entry.url(), TextUtil.to_lower_case(entry.text()), 
+            entry.source, entry.crawl_url))
+
         return BlogEntryCollection(output_collection)
         
 class StripPunctuation():
@@ -27,7 +29,8 @@ class StripPunctuation():
         output_collection = list()
         for entry in collection:
             output_collection.append(BlogEntry(StripPunctuation.eliminate_punctuation(entry.title()), \
-            entry.date(), entry.url(), StripPunctuation.eliminate_punctuation(entry.text())))
+            entry.date(), entry.url(), StripPunctuation.eliminate_punctuation(entry.text()),
+            entry.source, entry.crawl_url))
         return BlogEntryCollection(output_collection)
         
         
@@ -49,7 +52,7 @@ class RawContentVectorizer():
         collection = StripPunctuation.transform(collection)
         output_collection = list()
         for entry in collection:
-            raw_words =  TextUtil.make_lowercase_word_vector(entry.text(), unique = False, stemming = True)
+            raw_words =  TextUtil.make_lowercase_word_vector(entry.text()) #, unique = False, stemming = True
             tot_words = len(raw_words)
             index = neighboring_words
             raw_content_words_list = list()
@@ -66,4 +69,10 @@ class RawContentVectorizer():
             
             output_collection.append(BlogEntry(entry.title(), entry.date(), entry.url(), set(raw_content_words_list)))
         return output_collection
-
+        
+         
+        
+# if __name__ == '__main__':
+#     collection = BlogEntryCollection.from_json_file(sys.argv[1])
+#     print collection.size()
+    
