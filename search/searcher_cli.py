@@ -30,6 +30,8 @@ if __name__ == '__main__':
         parser = QueryParser("title", ix.schema)
     elif q == "Ingredients":
         parser = QueryParser("ingredients", ix.schema)
+    elif q == "tags":
+        parser = QueryParser("tags", ix.schema)
     else:
         print("Sorry, this search option has not been implemented yet - stay tuned!")
 
@@ -48,14 +50,13 @@ if __name__ == '__main__':
     # print(authors)
     # print("\n")
 
-
-    # Only show documents in the "rendering" chapter
-    allow_q = Term("url", "https://smittenkitchen.com/2021/12/short-rib-onion-soup/")
+    #NEEDS TO BE EXACT
+    # allow_q = Term("url", "https://smittenkitchen.com/2021/12/short-rib-onion-soup/")
     # # Don't show any documents where the "tag" field contains "todo"
     # restrict_q = query.Term("tag", "todo")
 
     with ix.searcher() as s:
-        results = s.search(myquery, terms = True, limit = 20, filter=allow_q)  #filter=allow_q, mask=restrict_q
+        results = s.search(myquery, terms = True, limit = 20)  #filter=allow_q, mask=restrict_q
         print("Found " + str(len(results)) + "results")
         print(results.scored_length())
         for i, r in enumerate(results):

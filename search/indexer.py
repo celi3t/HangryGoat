@@ -44,6 +44,14 @@ def reset_index():
     create_index(schema)
 
 
+def index_dict(dictionary):    
+    storage = FileStorage("index")
+    ix = storage.open_index()
+
+    data = pd.read_csv(path)
+    dd = data.to_dict(orient = 'index')
+    add_to_index(ix, [dictionary])
+
 
 
 if __name__ == '__main__':

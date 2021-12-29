@@ -9,8 +9,13 @@ You can search by:
 - tags
 
 
-
 #### How to run it
+`python3 search/searcher_cli.py`
 
 
 #### Future work
+
+NLP fun: Improve the search by ingredients by creating n-grams
+
+Webapp with GUI for search
+
