@@ -18,7 +18,9 @@ import pandas as pd
 
 def get_schema():
     return Schema(title=TEXT(stored=True), 
+                    tags=TEXT(stored=True), 
                     url=ID(stored=True), 
+                    author=ID(stored=True), 
                     ingredients=TEXT(stored=True))
 
 def get_index():
@@ -33,26 +35,26 @@ def create_index(schema):
 def add_to_index(index, elements):
     writer = ix.writer()
     for element in elements:
-        writer.add_document(title=element["title"], url=element["url"],  ingredients=element["ingredients"])
+        writer.add_document(title=element["title"], url=element["url"],  ingredients=element["ingredients"],
+        author=element["author"],  tags=element["tags"])
     writer.commit()
+
+def reset_index():
+    schema = get_schema()
+    create_index(schema)
+
 
 
 
 if __name__ == '__main__':
-
-    schema = get_schema()
-    # # create_index(schema)
+    # reset_index()
+    to_index = "../data/parsed/iamafoodblog.csv"
+    #"../data/parsed/smitten_kitchen.csv"
     
+    schema = get_schema()
     storage = FileStorage("index")
-    # # # Using the Storage object
-    # # ix = storage.create_index(schema, indexname="usages")
     ix = storage.open_index()
 
-    data = pd.read_csv("../results.csv")
+    data = pd.read_csv(to_index)
     dd = data.to_dict(orient = 'index')
-    # print(dd.values())
     add_to_index(ix, dd.values())
-    # for key, item in dd.items():
-    #     print(item)
-    #     print("\n")
-    #     add_to_index(index, item)

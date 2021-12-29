@@ -3,6 +3,8 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 
+from crawler_tester import smitten_kitchen_rules, iamafoodblog_rules
+
 
 
 class LinkRule():
@@ -49,33 +51,36 @@ class LinkCrawler():
                                 self.run_recursive(link)
 
 
-
-def smitten_kitchen_rules(link):
-    return (len(link.split("/")) == 7 and "?" not in link and "#" not in link)
+# def smitten_kitchen_rules(link):
+#     return (len(link.split("/")) == 7 and "?" not in link and "#" not in link)
 
 
 if __name__ == '__main__':
-    skr = LinkRule(smitten_kitchen_rules)
 
-    skcrawler = LinkCrawler('https://smittenkitchen.com', skr, 6, "smitten_kitchen", write=True)
+    domain = 'https://iamafoodblog.com/'
+    max_it = 1000
+    author = "iamafoodblog"
+    skr = LinkRule(iamafoodblog_rules)
+
+    skcrawler = LinkCrawler(domain, skr, max_it, author, write=True)
     print(skcrawler.linklist)
-    skcrawler.run_recursive('https://smittenkitchen.com')
-    # print(skcrawler.linklist)
+    skcrawler.run_recursive(domain)
     print(len(skcrawler.linklist))
     print(len(set(skcrawler.linklist)))
+
+    # skr = LinkRule(smitten_kitchen_rules)
+
+    # skcrawler = LinkCrawler('https://smittenkitchen.com', skr, 1000, "smitten_kitchen", write=True)
+    # print(skcrawler.linklist)
+    # skcrawler.run_recursive('https://smittenkitchen.com')
+    # # print(skcrawler.linklist)
+    # print(len(skcrawler.linklist))
+    # print(len(set(skcrawler.linklist)))
 
 
 #### FOR TESTING LATER
         # print(skr.apply('https://smittenkitchen.com/2021/08/baked-farro-with-summer-vegetables/'))
     # print(skr.apply('https://smittenkiten.com/2021/08/baked-farro-with-summer-vegetables/'))
     # print(skr.apply('https://smittenkiten.com/2021/08/baked-farro-with-summer-vegetables/??jojofds'))
-
-
-
-# max_allowed = 10000
-# links = []
-
-# allowed_domain = 'https://smittenkitchen.com'
-#page = requests.get("https://smittenkitchen.com/2021/12/short-rib-onion-soup/")
 
 
