@@ -23,14 +23,17 @@ def get_schema():
                     author=ID(stored=True), 
                     ingredients=TEXT(stored=True))
 
+
 def get_index():
     storage = FileStorage("index")
     return storage.open_index()
+
 
 def create_index(schema):
     if not os.path.exists("index"):
         os.mkdir("index")
     create_in("index", schema)
+
 
 def add_to_index(index, elements):
     writer = ix.writer()
@@ -38,6 +41,7 @@ def add_to_index(index, elements):
         writer.add_document(title=element["title"], url=element["url"],  ingredients=element["ingredients"],
         author=element["author"],  tags=element["tags"])
     writer.commit()
+
 
 def reset_index():
     schema = get_schema()
@@ -47,10 +51,8 @@ def reset_index():
 def index_dict(dictionary):    
     storage = FileStorage("index")
     ix = storage.open_index()
-
-    data = pd.read_csv(path)
-    dd = data.to_dict(orient = 'index')
     add_to_index(ix, [dictionary])
+
 
 
 
