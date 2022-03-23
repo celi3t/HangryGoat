@@ -67,4 +67,6 @@ if __name__ == '__main__':
 
     data = pd.read_csv(to_index)
     dd = data.to_dict(orient = 'index')
+    # print(dd[100]['ingredients'])
+
     add_to_index(ix, dd.values())

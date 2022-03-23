@@ -19,12 +19,17 @@ from gensim.models import Word2Vec
 ### Then use Word2Vec on n-gram-transformed dataset
 
 ##### Read data
-df = pd.read_csv("/Users/celeste/code/HangryGoat/data/parsed/iamafoodblog.csv")
-# print(df.head())
+paths = ["/Users/celeste/code/HangryGoat/data/parsed/iamafoodblog.csv", \
+"/Users/celeste/code/HangryGoat/data/parsed/smitten_kitchen.csv"]
+
+data = []
+for path in paths:
+    data.append(pd.read_csv(path))
+
+df = pd.concat(data, axis = 0)
 
 measure_words = pd.read_csv("/Users/celeste/code/HangryGoat/data/nlp_stuff/measurements.csv", header = None).values
 measure_words = list(itertools.chain(*measure_words))
-
 
 #### Everything to lower case
 #### Only keep letters and spaces
@@ -41,7 +46,6 @@ tokenized = [word_tokenize(x) for x in raw]
 # tokenized = list(itertools.chain(*tokenized))
 #print(tokenized)
 
-
 #### Take out stop words
 #nltk.download('stopwords')
 stopwords.fileids() 
@@ -52,6 +56,8 @@ doc = []
 for sentence in tokenized:
     sent = []
     for word in sentence:
+        ### TODO: eliminate the s at the end, or some for of word stemming
+        ### Also add numbers to stopwords
         if word not in stopw:
             sent.append(word)
     if len(sent) > 0:
@@ -61,7 +67,7 @@ for sentence in tokenized:
 
 #doc =  [['unsalted', 'butter', 'melted'], ['light', 'dark', 'brown', 'sugar'], ['granulated', 'sugar'], ['ground', 'cinnamon'], ['kosher', 'salt'], ['all-purpose', 'flour'], ['unsalted', 'butter', 'softened'], ['granulated', 'sugar'], ['large', 'egg'], ['sour', 'cream'], ['vanilla', 'extract'], ['all-purpose', 'flour'], ['baking', 'powder'], ['kosher', 'salt']]
 # toks = [toks.append(tok) for tok in tokens if tok not in stopw]
-print(doc)
+# print(doc)
 ###Word to vec example
 
 ### Preprocess with phrases
@@ -72,10 +78,18 @@ for p in doc:
     print(phrases[p])
     trained.append(phrases[p])
 
-#phrases.save("/tmp/ingredients.pkl")
+phrases.save("/tmp/ingredients.pkl")
+print(trained[0:5])
+tt = [str(x).replace("[", "").replace("]", "") for x in trained]
+print(tt[0:5])
 
-ing = pd.DataFrame({"ingredient": trained})
-ing.to_csv("/Users/celeste/code/HangryGoat/data/parsed/ingredients.csv", index = False)
+ing = pd.DataFrame({"ingredient": tt})
+
+ing.to_csv("/Users/celeste/code/HangryGoat/data/parsed/ingredients_1.csv", index = False)
+
+
+
+
 
 #phrase_model.add_vocab([["hello", "world"], ["meow"]])
 #frozen_model = phrase_model.freeze()
@@ -85,9 +99,6 @@ ing.to_csv("/Users/celeste/code/HangryGoat/data/parsed/ingredients.csv", index =
 
 
 ######## OLD CODE THAT WILL NEED TO BE DELETED
-
-
-
 
 
 # new_sentence = ['kosher', 'salt', 'lemon']
@@ -116,59 +127,3 @@ ing.to_csv("/Users/celeste/code/HangryGoat/data/parsed/ingredients.csv", index =
 # # model = Word2Vec(bigram_transformer[common_texts], min_count=1)
 # for phrase, score in bigram_transformer.find_phrases(sentences).items():
 #     print(phrase, score)
-
-
-
-
-
-# #### Now tokenize
-
-
-
-
-
-# ### Do (TF IDF) a histogram to eliminate other words that are used to describe ingredients and are not ingredients
-# ## print(Counter(toks))
-
-# #### Word Stemming
-# porter = PorterStemmer()
-# stemmed = [porter.stem(word) for word in toks]
-# print(stemmed)
-
-
-# print(len(toks))
-# print(len(stemmed))
-
-
-# #### Count Vecotrizer
-# vectorizer = CountVectorizer()
-# X = vectorizer.fit_transform(raw)
-# print(vectorizer.get_feature_names_out())
-# X = X.toarray()
-
-# ingr_dict = {}
-# for i in range(0, X.shape[1]):
-#     for j, ingredient in enumerate(vectorizer.get_feature_names_out()):
-#         if ingredient not in ingr_dict:
-#             ingr_dict[ingredient] = 1
-            
-#         print(ingredient)
-
-
-# # for i, ingredient in enumerate(vectorizer.get_feature_names_out()):
-# #     print(ingredient)
-# #     print(len(X.toarray()[i]))
-
-# # beef AND Bone:
-# # Tot beef
-# # tot beef and bone
-
-# # print([re.sub("[0-9]+", "", x) for x in raw])
-
-
-# # nltk.download('punkt')
-
-
-
-
-
